@@ -1,7 +1,5 @@
 package com.agspace.example.controller;
 
-import com.agspace.example.query.AltUserQuery;
-import com.agspace.example.query.UserQuery;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
@@ -19,11 +17,10 @@ public class GraphQLController {
     private GraphQL graphql;
 
     @Autowired
-    public GraphQLController(UserQuery userQuery, AltUserQuery altUserQuery) {
+    public GraphQLController(UserController userController) {
         //Schema generated from annotated query classes
         GraphQLSchemaGenerator generator = new GraphQLSchemaGenerator();
-        generator.withOperationsFromSingleton(userQuery)
-                .withOperationsFromSingleton(altUserQuery)
+        generator.withOperationsFromSingleton(userController)
                 .withDefaults();
         graphql = GraphQL.newGraphQL(generator.generate()).build();
     }
