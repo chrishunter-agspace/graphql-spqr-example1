@@ -5,6 +5,7 @@ import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.GraphQLError;
 import io.leangen.graphql.GraphQLSchemaGenerator;
+import io.leangen.graphql.metadata.strategy.value.jackson.JacksonValueMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class GraphQLController {
         //Schema generated from annotated query classes
         GraphQLSchemaGenerator generator = new GraphQLSchemaGenerator();
         generator.withOperationsFromSingleton(userController)
+                .withValueMapperFactory(new JacksonValueMapperFactory())
                 .withDefaults();
         graphql = GraphQL.newGraphQL(generator.generate()).build();
     }
